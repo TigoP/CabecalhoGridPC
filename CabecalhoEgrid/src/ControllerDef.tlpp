@@ -1,0 +1,40 @@
+#INCLUDE 'Protheus.ch'
+#INCLUDE 'FwMvcDef.ch'
+
+/*/{Protheus.doc} Compras
+Rotina de pedidos de compra customizado em MVC
+@type user function
+@author Tiago Pereira
+@since 17/04/2025
+@return cabeçado e a grip do PC
+/*/
+User Function Compras()
+
+    Local oBrowse := FWBrowse():New()
+    Local aRotina := Nill
+
+    aRotina:= MenuDef()
+
+    oBrowse:SetAlias( 'Z01' )
+    oBrowse:SetDescription( 'Solicita Pedido de Compra' )
+    oBrowse:Activate()
+
+Return
+
+/*/{Protheus.doc} MenuDef
+Menu que será apresentado na tela inicial da rotina (Browse)
+@type user function
+@author Tiago Pereira
+@since 17/04/2025
+@return aRotina
+/*/
+User Function MenuDef()
+
+    Local aRotina := {}
+
+    ADD OPTION aRotina TITLE 'Incluir'    ACTION 'VIEWDEF.Compras' OPERATION MODEL_OPERATION_INSERT ACCESS 0
+    ADD OPTION aRotina TITLE 'Visualizar' ACTION 'VIEWDEF.Compras' OPERATION MODEL_OPERATION_VIEW   ACCESS 0
+    ADD OPTION aRotina TITLE 'Alterar'    ACTION 'VIEWDEF.Compras' OPERATION MODEL_OPERATION_UPDATE ACCESS 0
+    ADD OPTION aRotina TITLE 'Excluir'    ACTION 'VIEWDEF.Compras' OPERATION MODEL_OPERATION_DELETE ACCESS 0
+
+Return aRotina

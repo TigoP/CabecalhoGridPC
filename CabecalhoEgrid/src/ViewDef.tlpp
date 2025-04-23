@@ -1,0 +1,31 @@
+#INCLUDE 'Protheus.ch'
+#INCLUDE 'FwMvcDef.ch'
+
+/*/{Protheus.doc} ViewDef
+Define a View
+@type user function
+@author Tiago Pereira
+@since 17/04/2025
+@return viewDef
+/*/
+User Function ViewDef()
+
+    Local oView      := Nill
+    Local oModel     := ModelDef() //recebe o Model para ser utilizado na View
+    Local oStructZ01 := FWFormStruct(2, 'Z01' ) // Estrutura para os campos das tabela Z01 - View field
+    Local oStructZ02 := FWFormStruct(2, 'Z02' ) // Estrutura para os campos das tabela Z02 - View grid
+
+    oView := FWFormView():New() // Inicia a criação da View
+    oView:SetModel( oModel ) // Define o Model
+    
+    oView:AddFields( 'Z01_VIEW' , oStructZ01, 'Z01_MASTER' ) // Adiciona ao View os campos da Z01 em formato Field
+    oView:AddGrid(   'Z02_VIEW' , oStructZ02, 'Z02_ITENS'  ) // Adiciona ao View os campos da Z02 em formato Grid
+    oView:AddIncrementalField( 'Z02_VIEW'   , 'Z02_ITEM'   ) //Adiciona um campo em formato incremental
+
+    oView:CreateHorizontalBox('CABEC', 25) // Cria uma box com 25% de largura
+    oView:CreateHorizontalBox('ITENS', 75) // Cria uma box com 75% de largura
+
+    oView:SetOwnerView('Z01_VIEW', 'CABEC') // Define a View que irá receber o cabeçado
+    oView:SetOwnerView('Z02_VIEW', 'ITENS') // Define a View que irá receber os itens
+
+Return oView

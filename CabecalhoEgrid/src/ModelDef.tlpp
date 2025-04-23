@@ -1,0 +1,25 @@
+#INCLUDE 'Protheus.ch'
+#INCLUDE 'FwMvcDef.ch'
+
+/*/{Protheus.doc} ModelDef
+Modelo de dados da rotina
+@type user function
+@author tiago pereira
+@since 17/04/2025
+@return oModel
+/*/
+User Function ModelDef()
+
+    Local oModel := Nill
+
+    Local oStructZ01 := FWFormStruct(1, 'Z01' ) // Estrutura para os campos das tabela Z01 - Model field
+    Local oStructZ02 := FWFormStruct(1, 'Z02' ) // Estrutura para os campos das tabela Z02 - Model grid
+
+    oModel := MPFormModel():New('COMP001' ) // Inicia a criação do Model
+    oModel:AddFields( 'Z01_MASTER'    ,/*cOwner*/     ,oStructZ01) // Adiciona ao Model os campos da Z01 em formato Field
+    oModel:AddGrid( 'Z02_ITENS'       , 'Z01_MASTER'  ,oStructZ02) // // Adiciona ao Model os campos da Z02 em formato Grid
+    oModel:SetRelation( 'Z02_ITENS'   ,{{ 'Z02_FILIAL', 'xFilial("Z02")' }, { 'Z02_COD' , 'Z01_COD' }}, Z02->(IndexKey(1))) // Define o relacionamento entra as tabelas Z02 (filho) e Z01 (pai)
+    oModel:SetPrimaryKey({'Z01_FILIAL', 'Z01_COD'}) // Define a chave primária
+    oModel:SetDescription( 'Modeldescription' ) // Descrições do Model
+
+Return oModel
